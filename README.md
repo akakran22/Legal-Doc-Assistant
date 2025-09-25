@@ -2,16 +2,3 @@
 
 
 
-flask==2.3.4
-gunicorn==21.2.0
-langchain==0.1.155
-langchain-community==0.0.213
-pypdf==3.15.1
-python-dotenv==1.0.1
-groq==0.3.0
-qdrant-client==1.5.0
-requests==2.31.0
-tqdm==4.66.1
-numpy==1.26.1
-sentence-transformers==2.3.2
-scikit-learn==1.3.1
