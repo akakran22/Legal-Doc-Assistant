@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Legal AI Assistant</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <h3>⚖️ Indian Laws</h3>
+            <button class="sidebar-close" id="sidebarClose">×</button>
+        </div>
+        
+        <div class="sidebar-content">
+            <div class="law-category">
+                <h4>Constitutional Law</h4>
+                <ul>
+                    <li>Constitution of India, 2024</li>
+                </ul>
+            </div>
+            
+            <div class="law-category">
+                <h4>Criminal Law</h4>
+                <ul>
+                    <li>Indian Penal Code, 1860</li>
+                    <li>Code of Criminal Procedure, 1973</li>
+                    <li>Indian Evidence Act, 2015</li>
+                    <li>The Protection of Women from Domestic Violence Act, 2005</li>
+                </ul>
+            </div>
+            
+            <div class="law-category">
+                <h4>Civil Law</h4>
+                <ul>
+                    <li>Indian Contract Act, 1872</li>
+                    <li>Transfer of Property Act, 1882</li>
+                    <li>The Indian Evidence Act, 1872</li>
+                </ul>
+            </div>
+            
+            <div class="law-category">
+                <h4>Commercial Law</h4>
+                <ul>
+                    <li>Companies Act, 2013</li>
+                    <li>The Trade Marks Act, 1999</li>
+                    <li>The Information Technology Act, 2000</li>
+                </ul>
+            </div>
+
+            <div class="law-category">
+                <h4>Taxation Law</h4>
+                <ul>
+                    <li>Income Tax Act, 1961</li>
+                </ul>
+            </div>
+            
+            <div class="law-category">
+                <h4>Consumer Protection</h4>
+                <ul>
+                    <li>Consumer Protection Act, 2019</li>
+                </ul>
+            </div>
+
+            <div class="law-category">
+                <h4>Transport Law</h4>
+                <ul>
+                    <li>Transport Law</li>
+                </ul>
+            </div>
+
+            <div class="law-category">
+                <h4>Labor Law</h4>
+                <ul>
+                    <li>The Factories Act, 1948</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- Sidebar Overlay -->
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+    <!-- Main Container -->
+    <div class="main-container">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-left">
+                <button class="menu-btn" id="menuBtn">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+                <div class="logo">
+                    <span class="logo-icon">⚖️</span>
+                    <span class="logo-text">Legal AI Assistant</span>
+                </div>
+            </div>
+            <div class="header-right">
+                <div class="status-badge">
+                    <span class="status-dot"></span>
+                    Online
+                </div>
+            </div>
+        </header>
+
+        <!-- Chat Area -->
+        <div class="chat-area">
+            <div class="chat-messages" id="chatMessages">
+                <!-- Welcome Message -->
+                <div class="welcome-container">
+                    <div class="welcome-icon">⚖️</div>
+                    <h1 class="welcome-title">Welcome! How can I assist you today?</h1>
+                    <p class="welcome-subtitle">I'm here to help you with Indian legal matters, laws, and regulations. Ask me anything about legal procedures, rights, or specific acts.</p>
+                    
+                    <div class="quick-actions">
+                        <div class="action-cards">
+                            <div class="action-card" data-query="Tell me about property rights in India">
+                                <span class="card-icon">🏠</span>
+                                <span class="card-title">Property Rights</span> <br>
+                                <span class="card-icon">🛡️</span>
+                                <span class="card-title">Consumer Protection</span>  <br>
+                                <span class="card-icon">⚖️</span>
+                                <span class="card-title">Criminal Law</span>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Input Area -->
+            <div class="input-area">
+                <div class="input-container">
+                    <textarea 
+                        id="questionInput" 
+                        placeholder="Ask me about Indian laws, legal procedures, or your rights..."
+                        rows="1"
+                    ></textarea>
+                    <button id="sendBtn" class="send-btn" disabled>
+                        <svg viewBox="0 0 24 24" width="20" height="20">
+                            <path fill="currentColor" d="M2,21L23,12L2,3V10L17,12L2,14V21Z"/>
+                        </svg>
+                    </button>
+                </div>
+                <p class="input-disclaimer">
+                    ⚠️ This AI provides general legal information only. Always consult a qualified lawyer for legal advice.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const sidebar = document.getElementById('sidebar');
+        const sidebarOverlay = document.getElementById('sidebarOverlay');
+        const menuBtn = document.getElementById('menuBtn');
+        const sidebarClose = document.getElementById('sidebarClose');
+        const chatMessages = document.getElementById('chatMessages');
+        const questionInput = document.getElementById('questionInput');
+        const sendBtn = document.getElementById('sendBtn');
+
+        // Sidebar functionality
+        function openSidebar() {
+            sidebar.classList.add('open');
+            sidebarOverlay.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeSidebar() {
+            sidebar.classList.remove('open');
+            sidebarOverlay.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        menuBtn.addEventListener('click', openSidebar);
+        sidebarClose.addEventListener('click', closeSidebar);
+        sidebarOverlay.addEventListener('click', closeSidebar);
+
+        // Quick action cards
+        document.querySelectorAll('.action-card').forEach(card => {
+            card.addEventListener('click', () => {
+                const query = card.getAttribute('data-query');
+                questionInput.value = query;
+                questionInput.focus();
+                questionInput.dispatchEvent(new Event('input'));
+                hideWelcome();
+            });
+        });
+
+        // Input functionality
+        questionInput.addEventListener('input', function() {
+            const hasText = this.value.trim().length > 0;
+            sendBtn.disabled = !hasText;
+            
+            // Auto-resize
+            this.style.height = 'auto';
+            this.style.height = Math.min(this.scrollHeight, 120) + 'px';
+        });
+
+        questionInput.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                if (!sendBtn.disabled) {
+                    sendMessage();
+                }
+            }
+        });
+
+        sendBtn.addEventListener('click', sendMessage);
+
+        function hideWelcome() {
+            const welcomeContainer = document.querySelector('.welcome-container');
+            if (welcomeContainer) {
+                welcomeContainer.style.display = 'none';
+            }
+        }
+
+        async function sendMessage() {
+            const question = questionInput.value.trim();
+            if (!question) return;
+
+            hideWelcome();
+            addUserMessage(question);
+            
+            questionInput.value = '';
+            questionInput.style.height = 'auto';
+            sendBtn.disabled = true;
+            
+            const loadingId = showLoadingMessage();
+
+            try {
+                const response = await fetch('/ask', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({question})
+                });
+
+                const data = await response.json();
+                hideLoadingMessage(loadingId);
+
+                if (data.error) {
+                    addAIMessage(`I apologize, but I encountered an error: ${data.error}. Please try rephrasing your question.`);
+                } else {
+                    addAIMessage(data.answer, data.sources);
+                }
+            } catch (error) {
+                hideLoadingMessage(loadingId);
+                addAIMessage('I apologize, but I\'m having trouble connecting right now. Please try again in a moment.');
+            }
+        }
+
+        function addUserMessage(content) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = 'message user-message';
+            messageDiv.innerHTML = `
+                <div class="message-content user-content">
+                    ${escapeHtml(content)}
+                </div>
+            `;
+            chatMessages.appendChild(messageDiv);
+            scrollToBottom();
+        }
+
+        function addAIMessage(content, sources = null) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = 'message ai-message';
+            
+            let sourcesHTML = '';
+            if (sources && sources.length > 0) {
+                sourcesHTML = `
+                    <div class="sources">
+                        <h4>📚 Sources Referenced:</h4>
+                        ${sources.slice(0, 3).map(s => `
+                            <div class="source-item">
+                                <div class="source-title">${escapeHtml(s.meta.source || 'Legal Document')}</div>
+                                <div class="source-info">Page ${s.meta.page || 'N/A'} • ${Math.round(s.score)}% relevance</div>
+                            </div>
+                        `).join('')}
+                    </div>
+                `;
+            }
+            
+            messageDiv.innerHTML = `
+                <div class="message-avatar">⚖️</div>
+                <div class="message-content ai-content">
+                    ${formatResponse(content)}
+                    ${sourcesHTML}
+                </div>
+            `;
+            
+            chatMessages.appendChild(messageDiv);
+            scrollToBottom();
+        }
+
+        function showLoadingMessage() {
+            const loadingId = 'loading-' + Date.now();
+            const messageDiv = document.createElement('div');
+            messageDiv.className = 'message ai-message loading';
+            messageDiv.id = loadingId;
+            
+            messageDiv.innerHTML = `
+                <div class="message-avatar">⚖️</div>
+                <div class="message-content ai-content">
+                    <div class="typing-indicator">
+                        <div class="typing-dots">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </div>
+                        <span>Analyzing your legal query...</span>
+                    </div>
+                </div>
+            `;
+            
+            chatMessages.appendChild(messageDiv);
+            scrollToBottom();
+            return loadingId;
+        }
+
+        function hideLoadingMessage(loadingId) {
+            const loading = document.getElementById(loadingId);
+            if (loading) loading.remove();
+        }
+
+        function formatResponse(text) {
+            return text
+                .replace(/## (.*?)(?=\n|$)/g, '<h3>$1</h3>')
+                .replace(/### (.*?)(?=\n|$)/g, '<h4>$1</h4>')
+                .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+                .replace(/\n\n/g, '</p><p>')
+                .replace(/\n/g, '<br>')
+                .replace(/^/, '<p>')
+                .replace(/$/, '</p>');
+        }
+
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        function scrollToBottom() {
+            setTimeout(() => {
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+            }, 100);
+        }
+
+        // Focus input on page load
+        questionInput.focus();
+    </script>
+</body>
+</html>
